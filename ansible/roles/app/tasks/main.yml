@@ -1,0 +1,62 @@
+---
+# Turns off strict host key checking, so the provisioning doesn't stall
+- name: install ~/.ssh/config
+  copy: src=ssh-config dest=/home/vagrant/.ssh/config force=no
+
+# Make sure the developers' ssh-key is available inside the box
+- name: adding your private key for Github access
+  copy: src=~/.ssh/id_rsa dest=/home/vagrant/.ssh/id_rsa force=no
+
+# Ensure that github is a known host
+- name: ensure known hosts
+  shell: touch ~/.ssh/known_hosts
+  sudo_user: vagrant
+
+- name: remove github.com from known host
+  shell: ssh-keygen -R github.com
+  sudo_user: vagrant
+
+- name: ensure github.com in known host
+  shell: ssh-keyscan -H github.com > ~/.ssh/known_hosts
+  sudo_user: vagrant
+
+- name: Install Git
+  action: apt pkg=git-core state=installed
+
+- apt: pkg=python-software-properties
+- apt_repository: repo='ppa:chris-lea/node.js'
+- apt: pkg=nodejs update_cache=yes
+
+- name: Ensure Ruby 1.8 is not present
+  action: apt pkg=ruby1.8 state=absent
+
+- name: Ensure Ruby 1.9 is present
+  action: apt pkg=ruby1.9.1-dev state=installed
+
+- apt: pkg=python-software-properties
+- apt_repository: repo='ppa:chris-lea/node.js'
+- apt: pkg=nodejs update_cache=yes
+
+- name: Install Bundler to handle ruby package mess
+  action: command sudo gem install bundler
+
+- name: Install ruby packages
+  action: command bundle install chdir=/vagrant
+  sudo: no
+
+- name: Install npm packages
+  action: command npm install chdir=/vagrant
+  sudo: no
+
+- name: Install bower
+  npm: name=bower global=yes
+
+- name: Install grunt
+  npm: name=grunt-cli global=yes
+
+- name: Bower to install css and js assets
+  command: bower install chdir=/vagrant
+  sudo: no
+
+- name: Grunt to compose and minify css and js assets
+  command: grunt chdir=/vagrant

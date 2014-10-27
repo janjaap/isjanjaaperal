@@ -1,0 +1,9 @@
+{
+    "name": "innonatives",
+    "version": "1.0.0",
+    "dependencies": {
+        "normalize-css": "3.*",
+        "bourbon": "~4.0",
+        "bitters": "0.9.3"
+    }
+}

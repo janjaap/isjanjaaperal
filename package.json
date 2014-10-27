@@ -1,0 +1,22 @@
+{
+    "name": "innonatives",
+    "version": "1.0.0",
+    "main": "",
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "*",
+        "grunt-contrib-jshint": "*",
+        "grunt-contrib-nodeunit": "*",
+        "grunt-contrib-uglify": "*",
+        "jshint-stylish": "*",
+        "grunt-contrib-concat": "*",
+        "grunt-contrib-cssmin": "*",
+        "grunt-contrib-copy": "*",
+        "grunt-contrib-clean": "*",
+        "grunt-modernizr": "*"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": "null"
+}
